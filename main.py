@@ -9,6 +9,6 @@ if __name__ == '__main__':
     model = ChatOpenAI(temperature=0)
     agent = get_agent(model)
 
-    while (user_input := input("Enter a question:")) != "EXIT":
+    while (user_input := input("Enter a question(type EXIT to stop): ")) != "EXIT":
         response = agent.invoke({"input": user_input})
-        print(response)
+        print(f"Response:\n{response}")
