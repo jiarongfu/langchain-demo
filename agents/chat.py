@@ -17,12 +17,14 @@ def get_agent(model:BaseChatModel):
     model_with_func = model.bind(functions=functions)
     prompt = ChatPromptTemplate.from_messages([
         ("system", "You are helpful but sassy assistant"),
-        MessagesPlaceholder(variable_name="chat_history"),
+        # MessagesPlaceholder(variable_name="chat_history"),
         ("user", "{input}"),
         MessagesPlaceholder(variable_name="agent_scratchpad")
     ])
-    memory = ConversationBufferMemory(return_messages=True,memory_key="chat_history")
+    # memory = ConversationBufferMemory(return_messages=True,memory_key="chat_history")
     agent_chain = RunnablePassthrough.assign(
         agent_scratchpad= lambda x: format_to_openai_functions(x["intermediate_steps"])
     ) | prompt | model_with_func | OpenAIFunctionsAgentOutputParser()
-    return AgentExecutor(agent=agent_chain, tools=tools, verbose=True, memory=memory)
+    # return AgentExecutor(agent=agent_chain, tools=tools, verbose=True, memory=memory)
+    return AgentExecutor(agent=agent_chain, tools=tools, verbose=True)
+
